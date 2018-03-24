@@ -8,5 +8,7 @@ namespace DDDGuestbook.Web.ViewModels
         public string GuestbookName { get; set; }
 
         public List<GuestBookEntry> PreviousEntries { get;  } =new List<GuestBookEntry>();
+
+        public GuestBookEntry NewEntry { get; set; }
     }
 }

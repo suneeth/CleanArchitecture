@@ -1,4 +1,5 @@
 ﻿using System;
+using DDDGuestbook.Core.Entities;
 using DDDGuestbook.Core.Interfaces;
 using DDDGuestbook.Core.SharedKernel;
 using DDDGuestbook.Infrastructure.Data;
@@ -55,6 +56,7 @@ namespace DDDGuestbook.Web
 
                 // TODO: Move to Infrastucture Registry
                 config.For(typeof(IRepository<>)).Add(typeof(EfRepository<>));
+                config.For<IRepository<GuestBook>>().Use<GuestbookRepository>();
 
                 //Populate the container using the service collection
                 config.Populate(services);

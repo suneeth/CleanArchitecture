@@ -18,6 +18,8 @@ namespace DDDGuestbook.Infrastructure.Data
 
         public DbSet<ToDoItem> ToDoItems { get; set; }
 
+        public DbSet<GuestBook> GuestBooks { get; set; }
+
         public override int SaveChanges()
         {
             int result = base.SaveChanges();
