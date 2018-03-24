@@ -86,6 +86,7 @@ namespace DDDGuestbook.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+        
 
             app.UseStaticFiles();
 

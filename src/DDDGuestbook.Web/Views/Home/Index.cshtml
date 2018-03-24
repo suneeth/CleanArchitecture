@@ -1,7 +1,8 @@
 ﻿@{
-    ViewData["Title"] = "Clean DDD Architecture Sample";
+    ViewData["Title"] = "DDD Guestbook";
 }
-
+@model DDDGuestbook.Web.ViewModels.HomePageViewModel
+<!-- 
 <div class="row">
     <div class="col-md-6">
         <h2>To Do Items</h2>
@@ -19,4 +20,23 @@
             <li><a href="https://github.com/ardalis">GitHub</a></li>
         </ul>
     </div>
-</div>
+</div> -->
+
+<h2>Guestbook:@Model.GuestbookName</h2>
+<h3>Message :</h3>
+<ol class="round">
+    @if (!Model.PreviousEntries.Any())
+    {
+      <li class="zero">
+      <h5>No Messages</h5>
+      Nobody has left any messages. 
+      </li>
+    }
+    @foreach(var entry in Model.PreviousEntries.OrderByDescending(p=>p.DateTimeCreated))
+    {
+        <li class="arrow">
+        <h5>@entry.EmailAddress @entry.DateTimeCreated</h5>
+        @entry.Message
+        </li>
+    }
+</ol>
