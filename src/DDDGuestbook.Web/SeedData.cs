@@ -23,8 +23,18 @@ namespace DDDGuestbook.Web
                 Title = "Test Item 2",
                 Description = "Test Description Two"
             });
+
+             var guestbook = new GuestBook ();
+            dbContext.GuestBooks.Add(guestbook);
+            guestbook.Entries.Add (new GuestBookEntry()
+            {
+              EmailAddress = "test@test.com",
+              Message = "Test message"
+            });
+
             dbContext.SaveChanges();
         }
+
 
     }
 }

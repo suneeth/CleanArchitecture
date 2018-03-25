@@ -7,7 +7,7 @@ namespace DDDGuestbook.Core.Entities
     public class GuestBook:BaseEntity
     {
         public string Name { get; set; }
-        public List<GuestBookEntry> Entries { get; }=new List<GuestBookEntry>();
+        public List<GuestBookEntry> Entries { get; set;}=new List<GuestBookEntry>();
         
         public GuestBook()
         {
