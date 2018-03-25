@@ -1,8 +1,10 @@
 ﻿using System;
 using DDDGuestbook.Core.Entities;
 using DDDGuestbook.Core.Interfaces;
+using DDDGuestbook.Core.Services;
 using DDDGuestbook.Core.SharedKernel;
 using DDDGuestbook.Infrastructure.Data;
+using DDDGuestbook.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +59,8 @@ namespace DDDGuestbook.Web
                 // TODO: Move to Infrastucture Registry
                 config.For(typeof(IRepository<>)).Add(typeof(EfRepository<>));
                 config.For<IRepository<GuestBook>>().Use<GuestbookRepository>();
+                config.For<IMessageSender>().Use<EmailMessageSenderService>();
+
 
                 //Populate the container using the service collection
                 config.Populate(services);

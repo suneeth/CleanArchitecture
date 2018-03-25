@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Mail;
 using DDDGuestbook.Core.Entities;
 using DDDGuestbook.Core.Interfaces;
 using DDDGuestbook.Web.ViewModels;
@@ -13,45 +14,47 @@ namespace DDDGuestbook.Web.Controllers
 
         public HomeController(IRepository<GuestBook> guestbookRepository)
         {
-            _guestbookRepository=guestbookRepository;
+            _guestbookRepository = guestbookRepository;
         }
         public IActionResult Index()
         {
 
-            if(!_guestbookRepository.List().Any())
+            if (!_guestbookRepository.List().Any())
             {
-                var newGuestbook = new GuestBook(){ Name="My Guestbook" };
+                var newGuestbook = new GuestBook() { Name = "My Guestbook" };
                 newGuestbook.Entries.Add(new GuestBookEntry()
                 {
-                  EmailAddress="suneeth@abc.com",
-                  Message="Hi!"
+                    EmailAddress = "suneeth@abc.com",
+                    Message = "Hi!"
                 });
                 _guestbookRepository.Add(newGuestbook);
             }
-          
-           var guestbook=_guestbookRepository.GetById(1);
-           var viewModel= new HomePageViewModel();
 
-           viewModel.GuestbookName=guestbook.Name;
-           viewModel.PreviousEntries.AddRange(guestbook.Entries);
+            var guestbook = _guestbookRepository.GetById(1);
+            var viewModel = new HomePageViewModel();
+
+            viewModel.GuestbookName = guestbook.Name;
+            viewModel.PreviousEntries.AddRange(guestbook.Entries);
 
             return View(viewModel);
         }
 
-       
-       [HttpPost]
+
+        [HttpPost]
         public IActionResult Index(HomePageViewModel viewModel)
         {
-           if(ModelState.IsValid)
-           {
-               var guestbook=_guestbookRepository.GetById(1);
-               guestbook.Entries.Add(viewModel.NewEntry);
-               _guestbookRepository.Update(guestbook);
+            if (ModelState.IsValid)
+            {
+                var guestbook = _guestbookRepository.GetById(1);
 
-               viewModel.PreviousEntries.Clear();
-               viewModel.PreviousEntries.AddRange(guestbook.Entries);
-           }
-           return View(viewModel);
+                guestbook.AddEntry(viewModel.NewEntry);
+                
+                _guestbookRepository.Update(guestbook);
+
+                viewModel.PreviousEntries.Clear();
+                viewModel.PreviousEntries.AddRange(guestbook.Entries);
+            }
+            return View(viewModel);
         }
 
         public IActionResult Error()
