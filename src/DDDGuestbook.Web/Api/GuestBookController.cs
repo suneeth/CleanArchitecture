@@ -1,5 +1,6 @@
 using DDDGuestbook.Core.Entities;
 using DDDGuestbook.Core.Interfaces;
+using DDDGuestbook.Web.Filters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DDDGuestbook.Web.Api
@@ -16,24 +17,20 @@ namespace DDDGuestbook.Web.Api
 
 
         [HttpGet("{id:int}")]
+        [VerifyGuestbookExists]
         public IActionResult GetById(int id)
         {
             var guestbook = _guestbookRepo.GetById(id);
-            if(guestbook == null)
-            {
-                return NotFound(id);
-            }
+          
             return Ok(guestbook);
         }
 
         [HttpPost("{id:int}/NewEntry")]
+        [VerifyGuestbookExists]
         public IActionResult NewEntry(int id, [FromBody] GuestBookEntry entry)
         {
             var guestbook = _guestbookRepo.GetById(id);
-            if(guestbook ==null)
-            {
-                return NotFound(id);
-            }
+           
             guestbook.AddEntry(entry);
             _guestbookRepo.Update(guestbook);
 
